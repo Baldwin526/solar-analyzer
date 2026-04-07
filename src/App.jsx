@@ -2,6 +2,7 @@ import { useState } from 'react'
 import StepOne from './components/StepOne'
 import StepTwo from './components/StepTwo'
 import Results from './components/Results'
+import PitchAnalyzer from './components/PitchAnalyzer'
 import { fetchStateElectricityRate } from './utils/eiaApi'
 import './App.css'
 
@@ -76,6 +77,7 @@ function initState() {
 
 export default function App() {
   const initial = initState()
+  const [tab, setTab]   = useState('analyzer')
   const [step, setStep] = useState(initial.step)
   const [data, setData] = useState(initial.data)
   const [utilityRate, setUtilityRate] = useState(initial.utilityRate)
@@ -128,46 +130,68 @@ export default function App() {
               <span className="logo-tagline">Independent solar quote analysis — no sales agenda</span>
             </div>
           </div>
+          <nav className="header-nav">
+            <button
+              className={`header-nav-tab ${tab === 'analyzer' ? 'active' : ''}`}
+              onClick={() => setTab('analyzer')}
+            >
+              Quote Analyzer
+            </button>
+            <button
+              className={`header-nav-tab ${tab === 'pitch' ? 'active' : ''}`}
+              onClick={() => setTab('pitch')}
+            >
+              Pitch Analyzer
+            </button>
+          </nav>
         </div>
       </header>
 
       <main className="app-main">
-        {step < 3 && (
-          <div className="stepper">
-            <div className={`step-dot ${step >= 1 ? 'active' : ''}`}>
-              <span>1</span>
-              <label>Quote Details</label>
+        {tab === 'analyzer' && (
+          <>
+            {step < 3 && (
+              <div className="stepper">
+                <div className={`step-dot ${step >= 1 ? 'active' : ''}`}>
+                  <span>1</span>
+                  <label>Quote Details</label>
+                </div>
+                <div className={`step-line ${step >= 2 ? 'filled' : ''}`} />
+                <div className={`step-dot ${step >= 2 ? 'active' : ''}`}>
+                  <span>2</span>
+                  <label>Home Info</label>
+                </div>
+                <div className={`step-line ${step >= 3 ? 'filled' : ''}`} />
+                <div className={`step-dot ${step >= 3 ? 'active' : ''}`}>
+                  <span>✓</span>
+                  <label>Results</label>
+                </div>
+              </div>
+            )}
+            <div className="card">
+              {step === 1 && (
+                <StepOne data={data} onChange={updateData} onNext={() => setStep(2)} />
+              )}
+              {step === 2 && (
+                <StepTwo data={data} onChange={updateData} onNext={handleAnalyze} onBack={() => setStep(1)} />
+              )}
+              {step === 3 && (
+                <Results
+                  data={data}
+                  utilityRate={utilityRate}
+                  isRestored={isRestored}
+                  onReset={reset}
+                />
+              )}
             </div>
-            <div className={`step-line ${step >= 2 ? 'filled' : ''}`} />
-            <div className={`step-dot ${step >= 2 ? 'active' : ''}`}>
-              <span>2</span>
-              <label>Home Info</label>
-            </div>
-            <div className={`step-line ${step >= 3 ? 'filled' : ''}`} />
-            <div className={`step-dot ${step >= 3 ? 'active' : ''}`}>
-              <span>✓</span>
-              <label>Results</label>
-            </div>
-          </div>
+          </>
         )}
 
-        <div className="card">
-          {step === 1 && (
-            <StepOne data={data} onChange={updateData} onNext={() => setStep(2)} />
-          )}
-          {step === 2 && (
-            <StepTwo data={data} onChange={updateData} onNext={handleAnalyze} onBack={() => setStep(1)} />
-          )}
-          {step === 3 && (
-            <Results
-              data={data}
-              utilityRate={utilityRate}
-              isRestored={isRestored}
-              onReset={reset}
-            />
-          )}
-        </div>
-
+        {tab === 'pitch' && (
+          <div className="card">
+            <PitchAnalyzer />
+          </div>
+        )}
       </main>
 
       <footer className="app-footer">
