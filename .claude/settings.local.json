@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/baldwinstrickland/**)",
+      "Bash(npm create:*)",
+      "Bash(mv solar-analyzer-tmp/* solar-analyzer/)",
+      "Bash(mv solar-analyzer-tmp/.* solar-analyzer/)",
+      "Bash(rmdir solar-analyzer-tmp:*)",
+      "Bash(npm install:*)",
+      "Bash(sudo chmod:*)",
+      "Bash(npm cache:*)",
+      "Bash(npm run:*)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173)",
+      "Bash(kill %1)"
+    ]
+  }
+}
