@@ -4,64 +4,64 @@ export const YELLOW = 'yellow'
 // ─── Tactic definitions ────────────────────────────────────────────────────────
 export const TACTICS = {
   false_authority: {
-    name: 'False Authority / Government Impersonation',
+    name: 'False Authority Claim',
     severity: RED,
-    summary: 'Implies utility or government affiliation that doesn\'t exist',
-    detail: 'Solar companies have absolutely no affiliation with your utility company, local government, or federal agencies. Phrases like "the utility company sent me," "following up on the net metering program," or "government-backed program" are designed to borrow legitimacy from institutions you already trust. This is one of the most common door-to-door solar tactics — some state attorneys general have issued formal consumer warnings about it.',
+    summary: 'Implies utility or government affiliation that does not exist',
+    detail: 'Solar companies have no affiliation with your utility company, local government, or federal agencies. Phrases like "the utility company sent me," "following up on the net metering program," or "government-backed program" can lend unearned legitimacy to a sales visit by referencing institutions you already have a relationship with. This is a common door-to-door solar technique that some state attorneys general have addressed in formal consumer advisories.',
   },
   expired_itc: {
-    name: 'Expired Tax Credit Claim (Section 25D)',
+    name: 'Expired Tax Credit Reference (Section 25D)',
     severity: RED,
     summary: 'The 30% federal residential solar tax credit expired December 31, 2025',
-    detail: 'The federal residential solar Investment Tax Credit (Section 25D) expired for homeowners on December 31, 2025. Any salesperson claiming a "30% federal tax credit" or "government solar program" in 2026 is either deliberately misleading you or dangerously uninformed. If this credit was used to justify a lower net cost or faster payback period, the numbers in the quote are not accurate — demand a revised quote without this credit.',
+    detail: 'The federal residential solar Investment Tax Credit (Section 25D) expired for homeowners on December 31, 2025. A salesperson referencing a "30% federal tax credit" or "government solar program" in 2026 may be working from outdated information or unaware of current law. If this credit was used to calculate a lower net cost or faster payback period, those figures should be revisited — request a revised quote that does not include this credit.',
   },
   artificial_urgency: {
-    name: 'Artificial Urgency / High-Pressure Deadline',
+    name: 'Urgency / Same-Day Deadline Pressure',
     severity: RED,
-    summary: 'Fabricated deadline designed to prevent you from getting competing quotes',
-    detail: 'Legitimate solar companies do not have "today only" pricing or offers that expire at the end of an appointment. Solar equipment pricing is relatively stable — the same deal will be available next week. These manufactured deadlines exist for one reason: to prevent you from getting 2-3 competing quotes, which is exactly what you should do before signing anything. A company that won\'t honor the same price tomorrow is using a high-pressure sales tactic.',
+    summary: 'Time-limited offer framing used to encourage a decision before you can compare quotes',
+    detail: 'Legitimate solar companies do not typically have offers that expire at the end of a single appointment. Solar equipment pricing is relatively stable — comparable pricing is generally available regardless of when you decide. Time-limited framing is commonly used in sales contexts to encourage a decision before a homeowner has had a chance to obtain competing quotes, which is the standard recommendation before committing to any solar installation.',
   },
   social_proof_manipulation: {
-    name: 'Social Proof Manipulation',
+    name: 'Neighbor / Social Proof References',
     severity: RED,
-    summary: 'Using neighbors to create fear of missing out',
-    detail: '"Your neighbor just signed up" and "half the street is already doing it" are designed to trigger FOMO and bypass your independent analysis. These claims are often unverifiable or exaggerated. Even if true, your neighbor\'s financial situation, roof conditions, utility rate, and contract terms may be completely different from yours. The fact that someone else signed up is not a reason for you to sign up.',
+    summary: 'References to neighbors used to encourage a quick decision',
+    detail: '"Your neighbor just signed up" and "half the street is already doing it" are used to create a sense of urgency around a financial decision. These claims are often difficult to verify. Even when true, a neighbor\'s financial situation, roof conditions, utility rate, and contract terms may be substantially different from yours. A neighboring household\'s decision is not a reliable basis for your own.',
   },
   isolation_tactic: {
-    name: 'Isolation / Pressure to Sign Without Advisors',
+    name: 'Same-Day Signing Pressure',
     severity: RED,
-    summary: 'Pushing you to commit before family or advisors can review',
-    detail: 'Any company that pushes you to sign a 20-25 year financial contract before your spouse, financial advisor, or attorney can review it is a major red flag. Legitimate solar companies will happily schedule a follow-up appointment. Pressure to sign on the spot — especially before your spouse can see it — is strongly associated with predatory sales practices and is a common complaint in state consumer protection filings.',
+    summary: 'Pressure to commit before family members or advisors can review the contract',
+    detail: 'A 20-25 year financial contract warrants careful review by all relevant parties — including a spouse, financial advisor, or attorney. Companies that prefer a same-day decision before others can weigh in make it more difficult for homeowners to conduct independent due diligence. Standard consumer protection guidance recommends taking time to review any long-term contract before signing.',
   },
   emotional_reframe: {
-    name: '"Own vs Rent" Emotional Reframe',
+    name: '"Own vs Rent" Framing',
     severity: YELLOW,
-    summary: 'Psychologically compelling but oversimplifies a complex financial decision',
-    detail: '"Own your power, stop renting from the utility" is rhetorically powerful — but misleading if you\'re being offered a lease or PPA. In those structures, you don\'t own the solar system either. You\'d be renting from a solar company instead of from your utility. The own vs. rent framing is most accurate only for cash purchases or loans that end in system ownership. Before the pitch lands, ask: "Am I actually buying this system, or signing a 20-year lease?"',
+    summary: 'Compelling framing that may not apply accurately to the product being offered',
+    detail: '"Own your power, stop renting from the utility" is a compelling frame — but it may be incomplete if the product being offered is a lease or PPA. In those structures, the homeowner does not own the solar system. The own vs. rent language is most accurate when applied to cash purchases or loans that end in outright ownership. It is worth asking directly: "Am I purchasing this system, or entering a long-term lease agreement?"',
   },
   artificial_scarcity: {
-    name: 'Artificial Scarcity / "You Qualify" Exclusivity',
+    name: 'Qualification / Scarcity Framing',
     severity: YELLOW,
-    summary: '"Only select homes qualify" creates desire through manufactured exclusivity',
-    detail: 'Phrases like "only 30% of homes qualify" or "you\'re one of the lucky ones" are designed to make you feel selected and special before you\'ve agreed to anything. Most homes with adequate roof space and sun exposure do qualify for solar. The "qualification" language is primarily a psychological sales technique — not a genuine engineering assessment of your roof.',
+    summary: '"Only select homes qualify" used to create a sense of exclusivity',
+    detail: 'Phrases like "only 30% of homes qualify" or "you\'re one of the lucky ones" are used to create a sense of exclusivity early in a sales conversation. Most homes with adequate roof space and sun exposure meet basic solar installation criteria. The "qualification" language is primarily a sales framing technique rather than a reflection of a detailed engineering assessment of your specific property.',
   },
   misleading_free: {
     name: '"No Cost" / "No Money Out of Pocket" Framing',
     severity: YELLOW,
-    summary: 'Technically true for day one, but conceals a 20-25 year financial obligation',
-    detail: 'Solar leases and PPAs often require no upfront payment — so "no money out of pocket today" is technically accurate. But you\'re signing a multi-decade financial contract that can appear as a lien on your property title, complicate a home sale, and lock you into payments or rate structures for 20-25 years. Calling this "free" or "no cost" is deeply misleading about the total financial commitment involved.',
+    summary: 'Accurate for day one, but may understate a long-term financial obligation',
+    detail: 'Solar leases and PPAs typically require no upfront payment, so "no money out of pocket today" is accurate in a narrow sense. However, these agreements involve a multi-decade financial commitment that can appear as an encumbrance on your property title, affect a future home sale, and obligate you to payments or rate structures for 20-25 years. It is worth understanding the full financial picture before treating any solar arrangement as a no-cost proposition.',
   },
   oversimplification: {
-    name: '"Bill Swap" / "Bill Elimination" Oversimplification',
+    name: '"Bill Swap" / Bill Elimination Framing',
     severity: YELLOW,
-    summary: 'Ignores escalator clauses, lease obligations, and home sale complications',
-    detail: 'The "bill swap" framing ignores several key realities: many contracts include 1-3% annual escalator clauses that raise your payment over time; lease obligations may not transfer easily when you sell your home; solar production varies by season, weather, and panel degradation over 25 years. Ask for a full 25-year cost analysis — not just the monthly number — and specifically ask what happens to your obligation if you sell your home.',
+    summary: 'A simplified framing that may not capture the full financial picture',
+    detail: 'The "bill swap" framing — replacing your utility bill with a solar payment — is straightforward in concept but may not reflect the full picture. Many contracts include 1-3% annual escalator clauses that increase your payment each year. Lease obligations may not transfer straightforwardly when selling your home. Solar production also varies by season, weather, and system degradation over time. Requesting a full 25-year cost analysis, including escalator terms and transfer provisions, gives a more complete view.',
   },
   false_familiarity: {
-    name: 'False Familiarity / Utility Impersonation',
+    name: 'Utility Familiarity Claim',
     severity: YELLOW,
-    summary: 'Implies an existing relationship with your utility that doesn\'t exist',
-    detail: '"We\'re following up because your utility replaced your meter" or "we\'re working with your utility company on this program" imply an affiliation that does not exist. Private solar companies have no access to your utility account, no relationship with your utility, and are not sent by anyone. This tactic is designed to lower your guard by borrowing trust from an institution you already have a real relationship with.',
+    summary: 'Implies an existing relationship with your utility that does not exist',
+    detail: '"We\'re following up because your utility replaced your meter" or "we\'re working with your utility company on this program" suggest an affiliation that private solar companies do not have. Solar companies do not have access to individual utility accounts and are not dispatched by utility providers. This approach may borrow familiarity from an institution you already have a relationship with to establish early rapport.',
   },
 }
 
@@ -160,45 +160,45 @@ export function analyzePitch(text, checkedItems) {
   if (!nothingEntered) {
     if (redCount >= 3) {
       risk = {
-        level: 'Very High',
+        level: 'Significant Concerns Identified',
         color: 'red',
-        headline: 'Multiple Serious Manipulation Tactics Detected',
-        description: `${redCount} serious red-flag tactics were detected in this pitch. This combination is strongly associated with predatory door-to-door solar sales. Do not sign anything. Get multiple competing quotes, and consider reporting this company to your state attorney general's consumer protection division.`,
+        headline: 'Multiple High-Risk Sales Tactics Identified',
+        description: `${redCount} high-risk sales techniques were identified in this pitch. This combination warrants careful consideration before proceeding. We recommend taking additional time before signing anything, obtaining at least three independent quotes, and verifying the company's credentials through your state licensing board and consumer protection resources.`,
       }
     } else if (redCount === 2) {
       risk = {
-        level: 'High',
+        level: 'Notable Concerns Found',
         color: 'red',
-        headline: 'High-Pressure Tactics Detected',
-        description: `${redCount} serious manipulation tactics were detected. Legitimate solar companies do not use these techniques. Walk away, take time to research the company independently, and get at least 3 competing quotes before making any decision.`,
+        headline: 'High-Risk Sales Techniques Identified',
+        description: `${redCount} high-risk sales techniques were identified. These approaches are not consistent with standard industry practice among established solar installers. Take time to independently research the company and obtain at least three competing quotes before making any decision.`,
       }
     } else if (redCount === 1) {
       risk = {
-        level: 'High',
+        level: 'Notable Concerns Found',
         color: 'red',
-        headline: 'A Serious Manipulation Tactic Was Detected',
-        description: 'One serious red-flag tactic was detected in this pitch. This warrants meaningful caution. Never sign a solar contract the same day you received the pitch — take time to verify all claims and get competing quotes.',
+        headline: 'A High-Risk Sales Technique Was Identified',
+        description: 'One high-risk sales technique was identified in this pitch. We recommend reviewing the details below, verifying all claims independently, and obtaining competing quotes before signing any contract.',
       }
     } else if (yellowCount >= 3) {
       risk = {
-        level: 'Medium',
+        level: 'Some Tactics Identified',
         color: 'yellow',
-        headline: 'Several Concerning Tactics Detected',
-        description: `${yellowCount} common sales tactics were detected. These aren't necessarily signs of fraud, but they're designed to influence your decision. Get competing quotes and ask pointed questions about what each tactic is obscuring in the financial details.`,
+        headline: 'Several Sales Techniques to Be Aware Of',
+        description: `${yellowCount} common sales techniques were identified. These are frequently used in the solar industry and are not necessarily indicators of a problematic company, but understanding what each one involves will help you ask better questions and evaluate any contract more clearly.`,
       }
     } else if (yellowCount >= 1) {
       risk = {
-        level: 'Medium',
+        level: 'Some Tactics Identified',
         color: 'yellow',
-        headline: 'Some Common Sales Tactics Detected',
-        description: 'A few standard solar sales tactics were detected. These are common in the industry but worth understanding before you sign anything. Take time to compare quotes and verify all claims independently.',
+        headline: 'Some Common Sales Techniques Identified',
+        description: 'A few common solar sales techniques were identified. These are worth understanding before you review any contract. Take time to compare quotes and verify all claims independently.',
       }
     } else {
       risk = {
-        level: 'Low',
+        level: 'Standard Sales Approach',
         color: 'green',
-        headline: 'No Major Red Flags Detected',
-        description: 'Based on what you\'ve described, no serious manipulation tactics were detected. That said, always get at least 3 competing quotes and never sign the same day — even a clean pitch can come with a problematic contract.',
+        headline: 'No High-Risk Techniques Identified',
+        description: 'Based on what you described, no high-risk sales techniques were identified. As a general practice, obtaining at least three competing quotes and taking time to review any contract before signing remains the recommended approach for any solar installation.',
       }
     }
   }

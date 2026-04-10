@@ -287,6 +287,27 @@
   line-height: 1.4;
 }
 
+.pitch-step-num {
+  font-size: 10.5px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.03em;
+  color: var(--accent);
+  background: var(--accent-dim);
+  border: 1px solid var(--accent-border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  flex-shrink: 0;
+  line-height: 1.6;
+  margin-top: 1px;
+}
+
+.pitch-risk-symbol {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+}
+
 .pitch-step-text {
   font-size: 13.5px;
   color: var(--text);
@@ -378,6 +399,16 @@
   color: var(--text-heading);
   letter-spacing: -0.03em;
   line-height: 1.1;
+}
+
+.logo-tm {
+  font-size: 9px;
+  font-weight: 400;
+  color: var(--text-muted);
+  vertical-align: super;
+  letter-spacing: 0;
+  margin-left: 1px;
+  opacity: 0.6;
 }
 
 .logo-tagline {
@@ -1927,4 +1958,786 @@
   opacity: 0.5;
   margin-top: 6px !important;
   letter-spacing: 0.02em;
+}
+
+/* ─── Contract Analyzer — input mode tabs ────────────────────────────────────── */
+.ca-input-tabs {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.ca-input-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  font-size: 13.5px;
+  font-weight: 600;
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  letter-spacing: -0.01em;
+  background: rgba(26, 26, 38, 0.5);
+  color: var(--text-muted);
+}
+
+.ca-input-tab + .ca-input-tab {
+  border-left: 1px solid var(--border);
+}
+
+.ca-input-tab:hover:not(.active) {
+  background: rgba(30, 30, 46, 0.8);
+  color: var(--text);
+}
+
+.ca-input-tab.active {
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+.ca-input-tab-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+/* ─── Contract Analyzer — PDF drop zone ─────────────────────────────────────── */
+.ca-pdf-section {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ca-drop-zone {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-sm);
+  padding: 40px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.18s ease, background 0.18s ease;
+  background: rgba(26, 26, 38, 0.3);
+  min-height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ca-drop-zone:hover {
+  border-color: var(--accent-border);
+  background: var(--accent-dim);
+}
+
+.ca-drop-zone.drag-over {
+  border-color: var(--accent);
+  background: rgba(245, 158, 11, 0.08);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.ca-drop-zone.has-file {
+  border-style: solid;
+  border-color: var(--green-border);
+  background: var(--green-dim);
+  padding: 24px;
+}
+
+.ca-drop-zone.has-error {
+  border-color: var(--red-border);
+  background: var(--red-dim);
+}
+
+.ca-drop-idle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.ca-drop-icon {
+  font-size: 28px;
+  color: var(--text-muted);
+  line-height: 1;
+  margin-bottom: 4px;
+  transition: color 0.15s;
+}
+
+.ca-drop-zone:hover .ca-drop-icon,
+.ca-drop-zone.drag-over .ca-drop-icon {
+  color: var(--accent);
+}
+
+.ca-drop-primary {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.ca-drop-secondary {
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+.ca-drop-loading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ca-pdf-spinner {
+  width: 22px;
+  height: 22px;
+  border: 2.5px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+.ca-btn-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(10, 10, 15, 0.3);
+  border-top-color: #0a0a0f;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+.ca-drop-loading-text {
+  font-size: 13.5px;
+  color: var(--text-muted);
+}
+
+.ca-file-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-align: left;
+}
+
+.ca-file-icon {
+  font-size: 24px;
+  color: var(--green);
+  flex-shrink: 0;
+  font-weight: 700;
+  filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.5));
+}
+
+.ca-file-details {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.ca-file-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-heading);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ca-file-meta {
+  font-size: 12px;
+  color: var(--green);
+  opacity: 0.85;
+}
+
+.ca-pdf-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 13px 16px;
+  background: var(--red-dim);
+  border: 1px solid var(--red-border);
+  border-radius: var(--radius-sm);
+}
+
+.ca-pdf-error-icon {
+  color: var(--red);
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.ca-pdf-error-msg {
+  font-size: 13px;
+  color: var(--red);
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+
+.ca-pdf-error-switch {
+  background: none;
+  border: none;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.ca-pdf-error-switch:hover {
+  opacity: 0.8;
+}
+
+/* ─── Contract Analyzer — paste section ─────────────────────────────────────── */
+.ca-paste-section {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.ca-paste-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ca-paste-textarea {
+  min-height: 200px !important;
+}
+
+.ca-clear-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  color: var(--text-muted);
+  font-size: 11.5px;
+  font-weight: 600;
+  font-family: inherit;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.ca-clear-btn:hover {
+  border-color: var(--red-border);
+  color: var(--red);
+  background: var(--red-dim);
+}
+
+.ca-char-counter {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+.ca-char-low { color: var(--red); font-weight: 600; }
+.ca-char-ok  { color: var(--green); font-weight: 600; }
+.ca-char-hint { color: var(--text-muted); font-weight: 400; }
+
+/* ─── Contract Analyzer — context fields ────────────────────────────────────── */
+.ca-context-section {
+  margin-bottom: 28px;
+}
+
+.ca-context-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.ca-context-note {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  opacity: 0.75;
+}
+
+/* ─── Contract Analyzer — collapsible sections ───────────────────────────────── */
+.ca-section {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-bottom: 14px;
+  transition: border-color 0.18s;
+}
+
+.ca-section:hover {
+  border-color: var(--border-hover);
+}
+
+.ca-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  cursor: pointer;
+  background: rgba(26, 26, 38, 0.85);
+  transition: background 0.15s;
+  user-select: none;
+  gap: 12px;
+}
+
+.ca-section-header:hover {
+  background: rgba(30, 30, 46, 0.95);
+}
+
+.ca-section-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.ca-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-heading);
+  letter-spacing: -0.01em;
+}
+
+.ca-section-count {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 99px;
+  border: 1px solid;
+}
+
+.ca-section-count.neutral {
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--border);
+}
+
+.ca-section-count.red {
+  color: var(--red);
+  background: var(--red-dim);
+  border-color: var(--red-border);
+}
+
+.ca-section-count.yellow {
+  color: var(--yellow);
+  background: var(--yellow-dim);
+  border-color: var(--yellow-border);
+}
+
+.ca-section-count.green {
+  color: var(--green);
+  background: var(--green-dim);
+  border-color: var(--green-border);
+}
+
+.ca-section-body {
+  padding: 18px 20px;
+  border-top: 1px solid var(--border);
+  background: rgba(18, 18, 26, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ─── Contract Analyzer — subheaders ────────────────────────────────────────── */
+.ca-subheader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  margin: 14px 0 8px;
+}
+
+.ca-subheader:first-child {
+  margin-top: 0;
+}
+
+.ca-subheader.red    { color: var(--red); }
+.ca-subheader.yellow { color: var(--yellow); opacity: 0.85; }
+.ca-subheader.green  { color: var(--green); }
+
+/* ─── Contract Analyzer — clause items ──────────────────────────────────────── */
+.ca-clause-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.ca-clause-item {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  transition: border-color 0.18s;
+}
+
+.ca-clause-item:hover {
+  border-color: var(--border-hover);
+}
+
+.ca-clause-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  cursor: pointer;
+  background: rgba(26, 26, 38, 0.8);
+  transition: background 0.15s;
+  user-select: none;
+  gap: 12px;
+}
+
+.ca-clause-header:hover {
+  background: rgba(30, 30, 46, 0.9);
+}
+
+.ca-clause-summary {
+  font-weight: 600;
+  color: var(--text) !important;
+  margin-bottom: 8px !important;
+}
+
+.ca-negotiate-hint {
+  margin-top: 10px !important;
+  padding: 10px 12px;
+  background: rgba(245, 158, 11, 0.06);
+  border-left: 2px solid var(--accent-border);
+  border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+}
+
+.ca-negotiate-label {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ─── Contract Analyzer — escalator table ────────────────────────────────────── */
+.ca-escalator-table-wrap {
+  margin-top: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.ca-escalator-standalone {
+  margin-bottom: 14px;
+}
+
+.ca-escalator-standalone .ca-escalator-table-wrap {
+  margin-top: 0;
+}
+
+.ca-escalator-table-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--red);
+  padding: 9px 14px 8px;
+  background: rgba(239, 68, 68, 0.06);
+  border-bottom: 1px solid var(--border);
+}
+
+.ca-escalator-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.ca-escalator-table th {
+  background: rgba(26, 26, 38, 0.7);
+  color: var(--text-muted);
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 8px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.ca-escalator-table td {
+  padding: 9px 14px;
+  color: var(--text);
+  border-bottom: 1px solid rgba(30, 30, 46, 0.6);
+}
+
+.ca-escalator-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.ca-escalator-table tbody tr:hover td {
+  background: rgba(26, 26, 38, 0.5);
+}
+
+.ca-table-row-base td {
+  color: var(--text-muted);
+}
+
+.ca-table-delta {
+  color: var(--red) !important;
+  font-weight: 600;
+}
+
+.ca-table-base-label {
+  color: var(--text-muted) !important;
+  font-style: italic;
+}
+
+/* ─── Contract Analyzer — stat badges ───────────────────────────────────────── */
+.ca-stat-badge {
+  border: 1px solid;
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+
+.ca-stat-badge.red {
+  background: var(--red-dim);
+  border-color: var(--red-border);
+}
+
+.ca-stat-badge.yellow {
+  background: var(--yellow-dim);
+  border-color: var(--yellow-border);
+}
+
+.ca-stat-badge.green {
+  background: var(--green-dim);
+  border-color: var(--green-border);
+}
+
+.ca-stat-badge-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 5px;
+}
+
+.ca-stat-badge-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-heading);
+  letter-spacing: -0.01em;
+  margin-bottom: 6px;
+}
+
+.ca-stat-badge.red .ca-stat-badge-value    { color: var(--red); }
+.ca-stat-badge.yellow .ca-stat-badge-value { color: var(--yellow); }
+.ca-stat-badge.green .ca-stat-badge-value  { color: var(--green); }
+
+.ca-stat-badge-desc {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+/* ─── Contract Analyzer — missing protections ────────────────────────────────── */
+.ca-missing-intro {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+
+.ca-missing-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.ca-missing-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  padding: 13px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: rgba(26, 26, 38, 0.4);
+}
+
+.ca-missing-item.missing-red {
+  border-color: var(--red-border);
+  background: var(--red-dim);
+}
+
+.ca-missing-item.missing-yellow {
+  border-color: var(--yellow-border);
+  background: var(--yellow-dim);
+}
+
+.ca-missing-item.found {
+  border-color: var(--green-border);
+  background: var(--green-dim);
+}
+
+.ca-missing-indicator {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.ca-missing-check {
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1;
+  display: block;
+}
+
+.ca-missing-check.red    { color: var(--red); }
+.ca-missing-check.yellow { color: var(--yellow); }
+.ca-missing-check.green  { color: var(--green); }
+
+.ca-missing-body {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.ca-missing-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-heading);
+  line-height: 1.35;
+}
+
+.ca-missing-detail {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.ca-missing-ask {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-top: 4px;
+  padding: 8px 10px;
+  background: rgba(245, 158, 11, 0.05);
+  border-left: 2px solid var(--accent-border);
+  border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+}
+
+/* ─── Contract Analyzer — risk chips ────────────────────────────────────────── */
+.ca-risk-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.ca-risk-chip {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 99px;
+  border: 1px solid;
+}
+
+.ca-risk-chip.red {
+  color: var(--red);
+  background: rgba(239, 68, 68, 0.12);
+  border-color: var(--red-border);
+}
+
+.ca-risk-chip.yellow {
+  color: var(--yellow);
+  background: rgba(245, 158, 11, 0.12);
+  border-color: var(--yellow-border);
+}
+
+.ca-risk-chip.green {
+  color: var(--green);
+  background: rgba(16, 185, 129, 0.12);
+  border-color: var(--green-border);
+}
+
+/* ─── Contract Analyzer — empty state / legal disclaimer ─────────────────────── */
+.ca-empty-section {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.65;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: rgba(26, 26, 38, 0.3);
+  text-align: center;
+}
+
+.ca-legal-disclaimer {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 15px 18px;
+  background: rgba(26, 26, 38, 0.5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-top: 20px;
+}
+
+.ca-disclaimer-icon {
+  font-size: 17px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  margin-top: 1px;
+  line-height: 1;
+}
+
+.ca-legal-disclaimer p {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+.ca-legal-disclaimer strong {
+  color: var(--text);
+}
+
+.ca-pro-teaser {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+.ca-pro-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-dim);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: 3px;
+  padding: 1px 5px;
+  flex-shrink: 0;
+  line-height: 1.6;
+}
+
+@media (max-width: 560px) {
+  .ca-input-tabs { flex-direction: column; }
+  .ca-input-tab + .ca-input-tab { border-left: none; border-top: 1px solid var(--border); }
+  .ca-drop-zone { padding: 30px 16px; }
+  .ca-escalator-table th,
+  .ca-escalator-table td { padding: 7px 10px; font-size: 11.5px; }
 }

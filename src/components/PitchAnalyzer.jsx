@@ -17,15 +17,15 @@ const CHECKLIST_ITEMS = [
 ]
 
 const NEXT_STEPS = [
-  { icon: '📋', text: 'Get at least 3 competing quotes from different installers before making any decision.' },
-  { icon: '🚫', text: 'Never sign a solar contract the same day you received the pitch — regardless of any deadline pressure.' },
-  { icon: '⚖️', text: 'Have a lawyer or trusted financial advisor review any contract before signing, especially for leases or PPAs.' },
-  { icon: '🏛', text: "Verify the company's contractor license with your state licensing board — ask for the license number directly." },
-  { icon: '⭐', text: 'Check the company on BBB.org and Google Reviews. Look for complaint patterns, not just the overall rating.' },
-  { icon: '🔍', text: 'Verify any tax credit or incentive claims independently at IRS.gov or with a tax professional — never rely on a salesperson.' },
+  { num: '01', text: 'Get at least 3 competing quotes from different installers before making any decision.' },
+  { num: '02', text: 'Never sign a solar contract the same day you received the pitch — regardless of any deadline framing.' },
+  { num: '03', text: 'Have a lawyer or trusted financial advisor review any contract before signing, especially for leases or PPAs.' },
+  { num: '04', text: "Verify the company's contractor license with your state licensing board — ask for the license number directly." },
+  { num: '05', text: 'Check the company on BBB.org and Google Reviews. Look for complaint patterns, not just the overall rating.' },
+  { num: '06', text: 'Verify any tax credit or incentive claims independently at IRS.gov or with a tax professional.' },
 ]
 
-const RISK_ICON = { red: '🔴', yellow: '🟡', green: '🟢' }
+const RISK_SYMBOL = { red: '✕', yellow: '⚠', green: '✓' }
 
 function TacticItem({ tactic }) {
   const [open, setOpen] = useState(tactic.severity === RED)
@@ -39,7 +39,7 @@ function TacticItem({ tactic }) {
         </div>
         <div className="pitch-tactic-right">
           <span className={`score-badge ${tactic.severity === RED ? 'red' : 'yellow'}`}>
-            {tactic.severity === RED ? '✕ Red Flag' : '⚠ Caution'}
+            {tactic.severity === RED ? '✕ High-Risk Indicator' : '⚠ Worth Noting'}
           </span>
           <span className={`score-chevron ${open ? 'open' : ''}`}>▾</span>
         </div>
@@ -55,9 +55,9 @@ function TacticItem({ tactic }) {
 }
 
 export default function PitchAnalyzer() {
-  const [text, setText]               = useState('')
+  const [text, setText]                 = useState('')
   const [checkedItems, setCheckedItems] = useState([])
-  const [results, setResults]         = useState(null)
+  const [results, setResults]           = useState(null)
 
   function toggleItem(id) {
     setCheckedItems(prev =>
@@ -81,7 +81,7 @@ export default function PitchAnalyzer() {
     <div>
       <div className="form-header">
         <h2>Sales Pitch Analyzer</h2>
-        <p>Describe what the solar salesperson said and check off any tactics they used. We'll identify common manipulation techniques so you can make a fully informed decision.</p>
+        <p>Describe what the solar salesperson said and check off any techniques they used. We'll identify common sales tactics so you can make a fully informed decision.</p>
       </div>
 
       {/* ── Input section ─────────────────────────────────────────── */}
@@ -94,7 +94,7 @@ export default function PitchAnalyzer() {
             </label>
             <textarea
               className="pitch-textarea"
-              placeholder="Describe what the salesperson said — their opening, what they promised, how the conversation felt, any pressure they used. The more detail, the better our analysis."
+              placeholder="Describe what the salesperson said — their opening, what they promised, how the conversation felt, any pressure they used. The more detail, the better the analysis."
               value={text}
               onChange={e => setText(e.target.value)}
               rows={5}
@@ -140,12 +140,12 @@ export default function PitchAnalyzer() {
       {/* ── Results ───────────────────────────────────────────────── */}
       {results && (
         <div>
-          {/* Risk banner */}
+          {/* Assessment banner */}
           {results.risk && (
             <div className={`score-overall ${results.risk.color}`}>
-              <div className="overall-icon">{RISK_ICON[results.risk.color]}</div>
+              <div className="overall-icon pitch-risk-symbol">{RISK_SYMBOL[results.risk.color]}</div>
               <div>
-                <div className="overall-label">Pitch Risk Level — {results.risk.level}</div>
+                <div className="overall-label">{results.risk.level}</div>
                 <div className="overall-title">{results.risk.headline}</div>
                 <div className="overall-desc">{results.risk.description}</div>
               </div>
@@ -156,16 +156,16 @@ export default function PitchAnalyzer() {
           {results.detected.length > 0 ? (
             <div className="pitch-tactics-section">
               <div className="pitch-section-header">
-                <span className="pitch-section-title">Tactics Detected</span>
+                <span className="pitch-section-title">Sales Techniques Identified</span>
                 <span className="pitch-tactic-counts">
                   {results.redCount > 0 && (
                     <span className="pitch-count-chip red">
-                      {results.redCount} red flag{results.redCount > 1 ? 's' : ''}
+                      {results.redCount} high-risk indicator{results.redCount > 1 ? 's' : ''}
                     </span>
                   )}
                   {results.yellowCount > 0 && (
                     <span className="pitch-count-chip yellow">
-                      {results.yellowCount} caution{results.yellowCount > 1 ? 's' : ''}
+                      {results.yellowCount} tactic{results.yellowCount > 1 ? 's' : ''} to review
                     </span>
                   )}
                 </span>
@@ -176,17 +176,17 @@ export default function PitchAnalyzer() {
             </div>
           ) : (
             <div className="pitch-no-tactics">
-              No specific manipulation tactics were detected based on what you described. Still review the next steps below.
+              No specific high-risk sales techniques were identified based on what you described. Review the recommended next steps below before making any decision.
             </div>
           )}
 
           {/* What to do next */}
           <div className="pitch-next-steps">
-            <div className="pitch-section-title">What To Do Next</div>
+            <div className="pitch-section-title">Recommended Next Steps</div>
             <div className="pitch-steps-list">
-              {NEXT_STEPS.map((step, i) => (
-                <div key={i} className="pitch-step-item">
-                  <span className="pitch-step-icon">{step.icon}</span>
+              {NEXT_STEPS.map((step) => (
+                <div key={step.num} className="pitch-step-item">
+                  <span className="pitch-step-num">{step.num}</span>
                   <span className="pitch-step-text">{step.text}</span>
                 </div>
               ))}
@@ -195,7 +195,7 @@ export default function PitchAnalyzer() {
 
           {/* Disclaimer */}
           <p className="pitch-disclaimer">
-            This tool identifies common sales tactics. Not all tactics indicate a scam — some are standard techniques used across many industries. Use this as a starting point for your own research, not as a definitive verdict.
+            This tool identifies common sales techniques. Not all of these techniques indicate a problematic company — many are standard practices across the sales industry. Use this analysis as a starting point for your own research, not as a definitive assessment of any particular company.
           </p>
 
           {/* Actions */}

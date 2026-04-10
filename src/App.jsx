@@ -3,6 +3,7 @@ import StepOne from './components/StepOne'
 import StepTwo from './components/StepTwo'
 import Results from './components/Results'
 import PitchAnalyzer from './components/PitchAnalyzer'
+import ContractAnalyzer from './components/ContractAnalyzer'
 import { fetchStateElectricityRate } from './utils/eiaApi'
 import './App.css'
 
@@ -126,7 +127,7 @@ export default function App() {
               <line x1="10.5" y1="27.5" x2="11.9" y2="26" stroke="#f59e0b" strokeWidth="1.5" strokeLinecap="round"/>
             </svg>
             <div className="logo-text-group">
-              <span className="logo-text">Solar Quote Analyzer</span>
+              <span className="logo-text">Solar Quote Analyzer<sup className="logo-tm">™</sup></span>
               <span className="logo-tagline">Independent solar quote analysis — no sales agenda</span>
             </div>
           </div>
@@ -142,6 +143,12 @@ export default function App() {
               onClick={() => setTab('pitch')}
             >
               Pitch Analyzer
+            </button>
+            <button
+              className={`header-nav-tab ${tab === 'contract' ? 'active' : ''}`}
+              onClick={() => setTab('contract')}
+            >
+              Contract Analyzer
             </button>
           </nav>
         </div>
@@ -190,6 +197,12 @@ export default function App() {
         {tab === 'pitch' && (
           <div className="card">
             <PitchAnalyzer />
+          </div>
+        )}
+
+        {tab === 'contract' && (
+          <div className="card">
+            <ContractAnalyzer />
           </div>
         )}
       </main>
