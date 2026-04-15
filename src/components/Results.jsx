@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { analyzeQuote, analyzeCompanyRedFlags, computeOverall, GREEN, YELLOW, RED } from '../analyze'
 import CompanyLookup from './CompanyLookup'
 import PaybackCalculator from './PaybackCalculator'
+import ShareButtons from './ShareButtons'
 
 const RATING_ICON  = { [GREEN]: '✓', [YELLOW]: '⚠', [RED]: '✕' }
 const OVERALL_ICON = { [GREEN]: '🟢', [YELLOW]: '🟡', [RED]: '🔴' }
@@ -282,6 +283,8 @@ export default function Results({ data, utilityRate, isRestored, onReset }) {
           <div className="overall-desc">{overall.description}</div>
         </div>
       </div>
+
+      <ShareButtons />
 
       {/* Scorecard */}
       <div className="scorecard">

@@ -44,6 +44,9 @@ function findEscalatorPct(text) {
     'fixed monthly payment',
     'fixed payment for',
     'shall remain fixed',
+    'no cpi adjustment',
+    'no inflation adjustment',
+    'no cost of living adjustment',
     /payments?\s+(?:shall|will)\s+not\s+(?:increase|change|escalat)/i,
     /fixed\s+(?:rate|payment)\s+for\s+(?:the\s+)?(?:full|entire|duration|term)/i,
   ])
@@ -74,6 +77,16 @@ function findEscalatorPct(text) {
     /escalat(?:or|ion)\s+rate\s+(?:of|is|shall|will|applies?)/i,
     /annual\s+rate\s+increase/i,
     /year-over-year\s+(?:increase|adjustment)/i,
+    // CPI / inflation / COLA-indexed payment increases
+    /(?:consumer\s+price\s+index|cpi)\s+.{0,80}(?:payment|rate|charge|monthly)/i,
+    /(?:payment|rate|charge|monthly).{0,80}(?:consumer\s+price\s+index|\bcpi\b)/i,
+    /inflation\s+adjustment.{0,60}(?:payment|rate|monthly|charge)/i,
+    /(?:payment|rate|charge|monthly).{0,60}inflation\s+adjustment/i,
+    /escalation\s+factor/i,
+    /cost\s+of\s+living\s+adjustment.{0,60}(?:payment|rate|monthly|charge)/i,
+    /utility\s+rate\s+escalator/i,
+    /payment\s+shall\s+be\s+adjusted/i,
+    /(?:increase|adjust)\s+in\s+accordance\s+with/i,
   ])
   if (hasPaymentIncreaseContext) return 'found-no-pct'
 
@@ -184,6 +197,8 @@ export function analyzeContract(text, context = {}) {
     'early cancellation fee',
     'buyout amount',
     'present value of remaining payments',
+    'net present value of remaining',
+    'prepayment in full of remaining',
     'cancel before end of term',
     /early\s+(?:termination|cancellation)\b/i,
     /cancel(?:lation)?\s+(?:fee|penalty|charge)\s+(?:for\s+)?(?:early|prior\s+to|before\s+(?:end|expir|complet))/i,
@@ -191,6 +206,9 @@ export function analyzeContract(text, context = {}) {
     /cancel\s+(?:before|prior\s+to)\s+(?:the\s+)?(?:end\s+of|expir|complet)/i,
     /terminate\s+(?:this\s+)?(?:agreement|contract|lease)\s+(?:early|before|prior)/i,
     /remaining\s+payments?\s+(?:shall|will|are)\s+(?:be\s+)?(?:due|owed|accelerated)/i,
+    /economic\s+loss.{0,80}(?:remaining|formula|calculat)/i,
+    /discounted\s+cash\s+flow.{0,60}(?:remaining|term|obligation)/i,
+    /(?:fee|penalty|charge|amount).{0,80}formula.{0,80}remaining\s+(?:payment|term|obligation)/i,
   ])) {
     const m = firstMatch(text, [
       /(?:early\s+)?(?:termination|cancellation)\s+(?:fee|penalty|charge)\s+(?:of\s+)?\$?\s*([\d,]+)/i,
@@ -214,8 +232,28 @@ export function analyzeContract(text, context = {}) {
   }
 
   // 3. System removal costs on homeowner
-  if (has(text, ['removal cost', 'cost of removal', 'deinstall', 'uninstall', 'cost to remove'])
-    && has(text, ['homeowner', 'customer shall', 'owner shall', 'you shall be responsible', 'responsible for removal'])) {
+  if (has(text, [
+    'removal cost',
+    'cost of removal',
+    'deinstall',
+    'de-installation',
+    'uninstall',
+    'cost to remove',
+    'decommissioning',
+    'removal and disposal',
+    'site restoration',
+    /decommission.{0,60}(?:cost|expense|fee|at\s+(?:customer|homeowner|owner|your))/i,
+    /(?:removal|disposal)\s+(?:cost|expense|fee).{0,80}(?:customer|homeowner|owner)/i,
+  ]) && has(text, [
+    'homeowner',
+    'customer shall',
+    'owner shall',
+    'you shall be responsible',
+    'responsible for removal',
+    'customer shall bear',
+    /customer\s+shall\s+bear\s+all\s+costs/i,
+    /(?:at\s+)?(?:customer|homeowner|owner|your)\s+(?:sole\s+)?(?:cost|expense)/i,
+  ])) {
     highRisk.push({
       id: 'removal_cost',
       label: 'System Removal Costs Placed on Homeowner',
@@ -227,8 +265,21 @@ export function analyzeContract(text, context = {}) {
   }
 
   // 4. Automatic renewal
-  if (has(text, ['automatic renewal', 'auto-renew', 'automatically renew',
-    'auto renewal', 'automatically extends', 'renew automatically', 'deemed renewed'])) {
+  if (has(text, [
+    'automatic renewal',
+    'auto-renew',
+    'automatically renew',
+    'auto renewal',
+    'automatically extends',
+    'renew automatically',
+    'deemed renewed',
+    'evergreen clause',
+    'successive terms',
+    /successive\s+terms?\s+(?:of|without|unless)/i,
+    // Notice periods over 90 days required to cancel renewal
+    /notice.{0,60}(?:9[1-9]|[1-9]\d{2})\s*-?\s*days?.{0,60}(?:cancel|renew|opt.out|terminat)/i,
+    /(?:9[1-9]|[1-9]\d{2})\s*-?\s*days?\s+(?:(?:written\s+)?notice|prior).{0,60}(?:cancel|renew|terminat)/i,
+  ])) {
     highRisk.push({
       id: 'auto_renewal',
       label: 'Automatic Renewal Clause',
@@ -273,6 +324,15 @@ export function analyzeContract(text, context = {}) {
     /(?:agree[sd]?|required|submit)\s+to\s+arbitrat/i,
     /all\s+(?:disputes?|claims?|controversies?)\s+.{0,40}arbitrat/i,
     /arbitration\s+(?:clause|provision|agreement)\s+(?:applies|shall\s+apply|governs)/i,
+    /alternative\s+dispute\s+resolution.{0,80}(?:exclusive|sole)\s+(?:remedy|method|means|forum)/i,
+    /(?:exclusive|sole)\s+(?:remedy|method|means).{0,80}alternative\s+dispute\s+resolution/i,
+    /\bJAMS\b.{0,60}(?:arbitrat|administer|rules?|conducted)/i,
+    /American\s+Arbitration\s+Association/i,
+    /\bAAA\b.{0,60}(?:arbitrat|administer|rules?|conducted)/i,
+    /disputes?\s+shall\s+be\s+exclusively\s+resolved/i,
+    /waiv.{0,20}right.{0,30}litigat/i,
+    /mandatory\s+mediation\s+before\s+any\s+(?:legal|court)\s+action/i,
+    /\bADR\b.{0,60}(?:exclusive|sole|only)\s+(?:remedy|method|means|forum)/i,
   ])
   // Note: class action waiver string patterns cannot use plain 'class action waiver' because
   // lower.includes() would match "no class action waiver". Gate on !noCAWaiver instead.
@@ -304,8 +364,22 @@ export function analyzeContract(text, context = {}) {
   }
 
   // 6. UCC lien / fixture filing
-  if (has(text, ['ucc-1', 'ucc filing', 'fixture filing', 'financing statement',
-    'security interest in the', 'uniform commercial code', 'lien on the property', 'lien on your home'])) {
+  if (has(text, [
+    'ucc-1',
+    'ucc lien',
+    'ucc filing',
+    'fixture filing',
+    'financing statement',
+    'security interest in the',
+    'perfected security interest',
+    'uniform commercial code',
+    'lien on the property',
+    'lien on your home',
+    'lien on real property',
+    'encumbrance on the property',
+    /financing\s+statement\s+.{0,60}(?:property|home|real\s+estate)/i,
+    /security\s+interest\s+in\s+(?:the\s+)?(?:home|improvement|installation|fixture)/i,
+  ])) {
     highRisk.push({
       id: 'ucc_lien',
       label: 'UCC Lien or Fixture Filing on Property',
@@ -351,10 +425,16 @@ export function analyzeContract(text, context = {}) {
       'transfer fee',
       'assumption fee',
       'consent of the company',
+      'qualified transferee',
       /cannot\s+(?:be\s+)?assign(?:ed)?\s+without/i,
       /company\s+(?:approval|consent)\s+(?:is\s+)?required/i,
       /(?:transfer|assignment)\s+(?:is\s+)?subject\s+to\s+(?:company|installer|our)\s+approval/i,
       /must\s+obtain\s+(?:company|installer|our)\s+(?:written\s+)?(?:approval|consent)\s+(?:before|prior)/i,
+      /creditworthiness.{0,80}(?:buyer|purchaser|transferee|new\s+owner)/i,
+      /sole\s+discretion.{0,60}(?:approve|deny|transfer|assign)/i,
+      /buyer\s+must\s+meet\s+(?:company|installer|our)/i,
+      /meet\s+company\s+standards/i,
+      /(?:transfer|assignment).{0,60}subject\s+to.{0,60}(?:credit|financial|qualification)/i,
     ])) {
       highRisk.push({
         id: 'assignment',
@@ -436,7 +516,13 @@ export function analyzeContract(text, context = {}) {
     ' rec ',
     'rec ownership',
     'environmental attribute',
+    'environmental attributes',
+    'renewable energy attributes',
+    'green tags',
+    'carbon offset',
     /solar\s+renewable\s+energy\s+(?:credits?|certificates?)/i,
+    /renewable\s+energy\s+(?:credits?|certificates?)/i,
+    /\bRECs?\b/i,
   ])
 
   if (hasSrecMention) {
@@ -535,6 +621,33 @@ export function analyzeContract(text, context = {}) {
         negotiate: `Ask for a longer cancellation window — 30–60 days is more appropriate since permitting timelines vary widely by jurisdiction. Confirm that (1) the window doesn't start until a formal permit denial is issued, (2) any post-window cancellation fees are waived if the denial is due to installer error, and (3) your deposit is refunded in full within 10 business days of cancellation.`,
       })
     }
+  }
+
+  // 8. Complex legal formula for fees — yellow when NPV/DCF/liquidated damages
+  //    are used to calculate fees but no specific dollar cap is stated.
+  const hasComplexFeeFormula = has(text, [
+    /net\s+present\s+value\s+of\s+(?:remaining|future|all)/i,
+    /\bNPV\b.{0,60}(?:remaining|payment|obligation)/,
+    /present\s+value\s+of\s+(?:remaining|future)\s+(?:payment|obligation)/i,
+    /discounted\s+cash\s+flow/i,
+    /liquidated\s+damages.{0,80}(?:remaining|formula|calculat|computed|equal\s+to)/i,
+  ])
+  const hasExplicitDollarCap = has(text, [
+    /shall\s+not\s+exceed\s+\$[\d,]+/i,
+    /capped?\s+at\s+\$[\d,]+/i,
+    /maximum\s+(?:fee\s+)?(?:of\s+)?\$[\d,]+/i,
+    /not\s+to\s+exceed\s+\$[\d,]+/i,
+    /limited\s+to\s+\$[\d,]+/i,
+  ])
+  if (hasComplexFeeFormula && !hasExplicitDollarCap) {
+    reviewCarefully.push({
+      id: 'complex_fee_formula',
+      label: 'Complex Legal Formula for Fees — No Dollar Cap',
+      rating: 'yellow',
+      summary: 'Fees calculated using financial formulas (NPV, discounted cash flow, or liquidated damages) with no stated maximum',
+      detail: 'The contract calculates termination or other fees using a financial formula — such as the net present value of remaining payments, discounted cash flow, or liquidated damages — without specifying a maximum dollar amount. These formulas can result in fees totaling tens of thousands of dollars depending on when you exit the contract. The language is designed to sound objective but leaves your maximum financial exposure entirely open.',
+      negotiate: 'Demand a specific dollar cap on any formula-based fee stated in the contract. Ask the installer to run the formula for your exact contract and put the resulting maximum dollar amount in the agreement. If they refuse to add a cap, treat this as a significant red flag before signing.',
+    })
   }
 
   // ── HOMEOWNER-FRIENDLY (GREEN) ─────────────────────────────────────────────
@@ -655,7 +768,14 @@ export function analyzeContract(text, context = {}) {
     'dealer markup',
     'dealer charge',
     'origination fee',
+    'origination cost',
     'loan origination',
+    'processing fee',
+    'administrative fee',
+    'dealer participation',
+    'broker compensation',
+    'documentation fee',
+    'acquisition fee',
     'finance charge',
     'financed amount includes',
     'incorporated into the loan',
@@ -664,6 +784,8 @@ export function analyzeContract(text, context = {}) {
     'included in the loan principal',
     /fee\s+(?:paid\s+to|charged\s+by)\s+(?:the\s+)?(?:financing\s+)?broker/i,
     /(?:dealer|broker)\s+fee\s+(?:of|is|=)/i,
+    /administrative\s+fee\s+(?:added|incorporated|rolled|included)\s+(?:to|into)\s+(?:the\s+)?(?:loan|principal)/i,
+    /(?:loan|financed)\s+amount\s+includes\s+.{0,60}fee/i,
   ])
 
   // Attempt to extract a fee dollar amount directly from the contract text.

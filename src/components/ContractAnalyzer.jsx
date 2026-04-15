@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback } from 'react'
 import { analyzeContract } from '../utils/contractAnalysis'
 import { fetchStateElectricityRate } from '../utils/eiaApi'
+import ShareButtons from './ShareButtons'
 
 // ─── PDF.js loader ──────────────────────────────────────────────────────────────
 async function loadPdfJs() {
@@ -566,6 +567,8 @@ export default function ContractAnalyzer() {
           </div>
         </div>
       </div>
+
+      <ShareButtons />
 
       {/* Section 1 — Contract Clause Analysis */}
       <CollapsibleSection

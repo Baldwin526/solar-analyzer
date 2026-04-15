@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { analyzePitch, RED } from '../utils/pitchAnalysis'
+import ShareButtons from './ShareButtons'
 
 const CHECKLIST_ITEMS = [
   { id: 'decide_today',       label: 'They said I had to decide today' },
@@ -151,6 +152,8 @@ export default function PitchAnalyzer() {
               </div>
             </div>
           )}
+
+          <ShareButtons />
 
           {/* Detected tactics */}
           {results.detected.length > 0 ? (

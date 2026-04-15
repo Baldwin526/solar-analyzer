@@ -4,6 +4,9 @@ import StepTwo from './components/StepTwo'
 import Results from './components/Results'
 import PitchAnalyzer from './components/PitchAnalyzer'
 import ContractAnalyzer from './components/ContractAnalyzer'
+import About from './components/About'
+import KnowYourRights from './components/KnowYourRights'
+import FAQ from './components/FAQ'
 import { fetchStateElectricityRate } from './utils/eiaApi'
 import './App.css'
 
@@ -127,8 +130,7 @@ export default function App() {
               <line x1="10.5" y1="27.5" x2="11.9" y2="26" stroke="#f59e0b" strokeWidth="1.5" strokeLinecap="round"/>
             </svg>
             <div className="logo-text-group">
-              <span className="logo-text">Solar Quote Analyzer<sup className="logo-tm">™</sup></span>
-              <span className="logo-tagline">Independent solar quote analysis — no sales agenda</span>
+              <span className="logo-text">SolarShield<sup className="logo-tm">™</sup></span>
             </div>
           </div>
           <nav className="header-nav">
@@ -149,6 +151,24 @@ export default function App() {
               onClick={() => setTab('contract')}
             >
               Contract Analyzer
+            </button>
+            <button
+              className={`header-nav-tab ${tab === 'rights' ? 'active' : ''}`}
+              onClick={() => setTab('rights')}
+            >
+              Know Your Rights
+            </button>
+            <button
+              className={`header-nav-tab ${tab === 'faq' ? 'active' : ''}`}
+              onClick={() => setTab('faq')}
+            >
+              FAQ
+            </button>
+            <button
+              className={`header-nav-tab ${tab === 'about' ? 'active' : ''}`}
+              onClick={() => setTab('about')}
+            >
+              About
             </button>
           </nav>
         </div>
@@ -205,12 +225,30 @@ export default function App() {
             <ContractAnalyzer />
           </div>
         )}
+
+        {tab === 'faq' && (
+          <div className="card">
+            <FAQ onNavigate={setTab} />
+          </div>
+        )}
+
+        {tab === 'rights' && (
+          <div className="card">
+            <KnowYourRights onNavigate={setTab} />
+          </div>
+        )}
+
+        {tab === 'about' && (
+          <div className="card">
+            <About onNavigate={setTab} />
+          </div>
+        )}
       </main>
 
       <footer className="app-footer">
         <div className="footer-brand">
           <span className="footer-brand-icon">☀</span>
-          <span className="footer-brand-text">Solar Quote Analyzer</span>
+          <span className="footer-brand-text">SolarShield</span>
         </div>
         <div className="footer-divider" />
         <div className="disclaimer">
