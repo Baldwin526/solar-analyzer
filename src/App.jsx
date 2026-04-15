@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import StepOne from './components/StepOne'
 import StepTwo from './components/StepTwo'
 import Results from './components/Results'
@@ -7,6 +7,9 @@ import ContractAnalyzer from './components/ContractAnalyzer'
 import About from './components/About'
 import KnowYourRights from './components/KnowYourRights'
 import FAQ from './components/FAQ'
+import PrivacyPolicy from './components/PrivacyPolicy'
+import TermsOfUse from './components/TermsOfUse'
+import CookiePolicy from './components/CookiePolicy'
 import { fetchStateElectricityRate } from './utils/eiaApi'
 import './App.css'
 
@@ -82,6 +85,19 @@ function initState() {
 export default function App() {
   const initial = initState()
   const [tab, setTab]   = useState('analyzer')
+  const prevTab         = useRef('analyzer')
+
+  function navigate(next) {
+    const legalTabs = ['privacy', 'terms', 'cookie']
+    if (legalTabs.includes(next) && !legalTabs.includes(tab)) {
+      prevTab.current = tab
+    }
+    setTab(next)
+  }
+
+  function goBack() {
+    setTab(prevTab.current)
+  }
   const [step, setStep] = useState(initial.step)
   const [data, setData] = useState(initial.data)
   const [utilityRate, setUtilityRate] = useState(initial.utilityRate)
@@ -243,6 +259,24 @@ export default function App() {
             <About onNavigate={setTab} />
           </div>
         )}
+
+        {tab === 'privacy' && (
+          <div className="card">
+            <PrivacyPolicy onBack={goBack} />
+          </div>
+        )}
+
+        {tab === 'terms' && (
+          <div className="card">
+            <TermsOfUse onBack={goBack} />
+          </div>
+        )}
+
+        {tab === 'cookie' && (
+          <div className="card">
+            <CookiePolicy onBack={goBack} />
+          </div>
+        )}
       </main>
 
       <footer className="app-footer">
@@ -263,6 +297,13 @@ export default function App() {
             before signing any solar contract.
           </p>
           <p className="disclaimer-verified">Data last verified: April 2026</p>
+        </div>
+        <div className="footer-legal-links">
+          <button className="footer-legal-btn" onClick={() => navigate('privacy')}>Privacy Policy</button>
+          <span className="footer-legal-sep">|</span>
+          <button className="footer-legal-btn" onClick={() => navigate('terms')}>Terms of Use</button>
+          <span className="footer-legal-sep">|</span>
+          <button className="footer-legal-btn" onClick={() => navigate('cookie')}>Cookie Policy</button>
         </div>
       </footer>
     </div>
